@@ -1,3 +1,4 @@
 FROM zhub.com/centos/centos-java
 
-RUN echo hello > /home/test.txt
+COPY target/*.jar /home
+RUN tail -f /etc/hosts
