@@ -1,4 +1,4 @@
 FROM zhub.com/centos/centos-java
 
-COPY target/*.jar /home
+COPY *.jar /home
 RUN tail -f /etc/hosts
