@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: usercenter-api-service
+  namespace: basic
+  labels:
+    app: usercenter-api-service
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: usercenter-api-service
+    spec:
+      containers:
+      - image: harbor.bytc.work/basic/usercenter-api-service:latest
+        name: usercenter-api-service
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: timezone
+          mountPath: /etc/localtime
+        ports:
+          - containerPort: 20350
+        env:
+          - name: ZK_SERVER
+            value: "192.168.1.104:2181"
+      imagePullSecrets:
+      - name: registrysecret
+      volumes:
+      - name: timezone
+        hostPath:
+          path: /usr/share/zoneinfo/Asia/Shanghai
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: usercenter-api-service
+  namespace: basic
+  labels:
+    app: usercenter-api-service
+spec:
+  type: NodePort
+  ports:
+  - port: 20350
+    targetPort: 20350
+    nodePort: 20350
+  selector:
+    app: usercenter-api-service
