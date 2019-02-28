@@ -1,4 +1,4 @@
 FROM zhub.com/centos/centos-java
 
 COPY *.jar /home
-CMD ["sh", "-c", "echo 'hello java' > /home/abc.txt"]
+CMD ["echo", "hello java", ">", "/home/abc.txt"]
